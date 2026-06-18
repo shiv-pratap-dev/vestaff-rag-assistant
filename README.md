@@ -1,4 +1,4 @@
-VeStaff RAG – AWS Agreement Assistant
+# VeStaff RAG – AWS Agreement Assistant
 
 A Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the AWS Customer Agreement and receive context-grounded answers with source references.
 
@@ -6,9 +6,9 @@ Built using FastAPI, FAISS, HuggingFace embeddings, SQLite analytics, and Stream
 
 Demo Video: [ADD VIDEO LINK HERE]
 
-⸻
+---
 
-What it does
+## What it does
 
 1. Ingests the AWS Customer Agreement PDF
 2. Chunks and embeds document content
@@ -21,9 +21,9 @@ What it does
 
 The system also supports conversational follow-up questions by maintaining the previous three question-answer pairs within a session.
 
-⸻
+---
 
-Tech Stack
+## Tech Stack
 
 Backend: FastAPI
 
@@ -39,9 +39,9 @@ Database: SQLite
 
 Language: Python
 
-⸻
+---
 
-Architecture
+## Architecture
 
 User
 
@@ -89,11 +89,11 @@ SQLite Logging
 
 Analytics Dashboard
 
-⸻
+---
 
-Features
+## Features
 
-RAG Pipeline
+### RAG Pipeline
 
 • PDF ingestion through API
 
@@ -109,7 +109,7 @@ RAG Pipeline
 
 • Follow-up conversational support
 
-FastAPI Backend
+### FastAPI Backend
 
 • POST /ingest
 
@@ -121,7 +121,7 @@ FastAPI Backend
 
 • Graceful error handling
 
-SQL Analytics
+### SQL Analytics
 
 Tracks:
 
@@ -141,7 +141,7 @@ Tracks:
 
 • Slowest queries
 
-Streamlit Frontend
+### Streamlit Frontend
 
 • Chat interface
 
@@ -153,58 +153,58 @@ Streamlit Frontend
 
 • One-click document ingestion
 
-⸻
+---
 
-Project Structure
+## Project Structure
 
-vestaff-rag-assistant/
-├── app/
-│   ├── core/
-│   │   └── config.py
-│   │
-│   ├── db/
-│   │   ├── database.py
-│   │   └── queries.py
-│   │
-│   ├── frontend/
-│   │   └── streamlit_app.py
-│   │
-│   ├── rag/
-│   │   ├── loader.py
-│   │   ├── chunker.py
-│   │   ├── embeddings.py
-│   │   ├── llm.py
-│   │   ├── pipeline.py
-│   │   └── prompt_builder.py
-│   │
-│   ├── routes/
-│   │   └── routes.py
-│   │
-│   ├── schemas/
-│   │   └── schemas.py
-│   │
-│   └── vector_store/
-│       └── vector_store.py
-│
-├── assets/
-├── data/
-│   └── aws_customer_agreement.pdf
-│
-├── .env.example
-├── .gitignore
-├── main.py
-├── requirements.txt
-└── README.md
+    vestaff-rag-assistant/
+    ├── app/
+    │   ├── core/
+    │   │   └── config.py
+    │   │
+    │   ├── db/
+    │   │   ├── database.py
+    │   │   └── queries.py
+    │   │
+    │   ├── frontend/
+    │   │   └── streamlit_app.py
+    │   │
+    │   ├── rag/
+    │   │   ├── loader.py
+    │   │   ├── chunker.py
+    │   │   ├── embeddings.py
+    │   │   ├── llm.py
+    │   │   ├── pipeline.py
+    │   │   └── prompt_builder.py
+    │   │
+    │   ├── routes/
+    │   │   └── routes.py
+    │   │
+    │   ├── schemas/
+    │   │   └── schemas.py
+    │   │
+    │   └── vector_store/
+    │       └── vector_store.py
+    │
+    ├── assets/
+    ├── data/
+    │   └── aws_customer_agreement.pdf
+    │
+    ├── .env.example
+    ├── .gitignore
+    ├── main.py
+    ├── requirements.txt
+    └── README.md
 
-⸻
+---
 
-API Endpoints
+## API Endpoints
 
-POST /ingest
+### POST /ingest
 
 Processes the AWS Agreement PDF and creates the FAISS vector store.
 
-POST /ask
+### POST /ask
 
 Accepts a question and returns:
 
@@ -214,13 +214,13 @@ Accepts a question and returns:
 
 • Source chunks
 
-GET /analytics
+### GET /analytics
 
 Returns SQL-powered usage analytics.
 
-⸻
+---
 
-Example Questions
+## Example Questions
 
 • Can AWS suspend my account?
 
@@ -238,60 +238,61 @@ Example Questions
 
 These demonstrate both direct retrieval and conversational follow-up behavior.
 
-⸻
+---
 
-Run Locally
+## Run Locally
 
 Clone the repository:
 
-git clone https://github.com/shiv-pratap-dev/vestaff-rag-assistant.git
-cd vestaff-rag-assistant
+    git clone https://github.com/shiv-pratap-dev/vestaff-rag-assistant.git
+
+    cd vestaff-rag-assistant
 
 Create environment file:
 
-cp .env.example .env
+    cp .env.example .env
 
 Add your HuggingFace token:
 
-HF_TOKEN=your_token_here
+    HF_TOKEN=your_token_here
 
 Install dependencies:
 
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
 Start FastAPI:
 
-uvicorn main:app --reload
+    uvicorn main:app --reload
 
 Swagger:
 
-http://localhost:8000/docs
+    http://localhost:8000/docs
 
 Start Streamlit in a separate terminal:
 
-streamlit run app/frontend/streamlit_app.py
+    streamlit run app/frontend/streamlit_app.py
 
 Open:
 
-http://localhost:8501
+    http://localhost:8501
 
 Click:
 
-Ingest AWS Agreement
+    Ingest AWS Agreement
 
 Then start chatting with the document.
 
-⸻
+---
 
-Important Note
+## Important Note
 
 As required by the assignment, Streamlit runs as a separate process from FastAPI and communicates with the backend through HTTP requests.
 
-Streamlit → HTTP → FastAPI
+    Streamlit → HTTP → FastAPI
 
-⸻
+---
 
-Testing
+## Testing
 
 The system was tested using 30+ queries including:
 
@@ -303,9 +304,9 @@ The system was tested using 30+ queries including:
 
 This generated realistic analytics data for evaluating retrieval quality and system performance.
 
-⸻
+---
 
-Future Improvements
+## Future Improvements
 
 • Cross-encoder reranking
 
@@ -319,9 +320,9 @@ Future Improvements
 
 • Authentication and user management
 
-⸻
+---
 
-Author
+## Author
 
 Shiv Pratap Singh
 
