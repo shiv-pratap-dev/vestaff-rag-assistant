@@ -5,21 +5,7 @@ A Retrieval-Augmented Generation (RAG) system for querying the AWS Customer Agre
 Built as part of the VeStaff Junior AI Developer Assignment. The system answers questions grounded in the AWS Customer Agreement PDF, tracks usage analytics in SQL, and provides an interactive chat interface with an analytics dashboard.
 
 ⸻
-
-Demo
-
-Demo Video
-
 Demo Video: [[](https://www.dropbox.com/scl/fi/7c6xbjvmrhq7i62mxiy8p/AWS-RAG-Screenrecording.mp4?rlkey=nm9v5pfii68iixps14sqwlt5g&st=mvfc33a9&dl=0)]
-
-Screenshots
-
-Chat Interface
-
-Analytics Dashboard
-
-Swagger Documentation
-
 ⸻
 
 Features
@@ -133,7 +119,6 @@ Architecture
                          └──────────────────┘
 
 ⸻
-
 Project Structure
 
 vestaff-rag-assistant/
