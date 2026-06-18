@@ -1,128 +1,163 @@
-VeStaff RAG Assistant
+VeStaff RAG – AWS Agreement Assistant
 
-A Retrieval-Augmented Generation (RAG) system for querying the AWS Customer Agreement using FastAPI, FAISS, HuggingFace embeddings, SQLite analytics, and Streamlit.
+A Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the AWS Customer Agreement and receive context-grounded answers with source references.
 
-Built as part of the VeStaff Junior AI Developer Assignment. The system answers questions grounded in the AWS Customer Agreement PDF, tracks usage analytics in SQL, and provides an interactive chat interface with an analytics dashboard.
+Built using FastAPI, FAISS, HuggingFace embeddings, SQLite analytics, and Streamlit.
+
+Demo Video: [ADD VIDEO LINK HERE]
 
 ⸻
-Demo Video: [[](https://www.dropbox.com/scl/fi/7c6xbjvmrhq7i62mxiy8p/AWS-RAG-Screenrecording.mp4?rlkey=nm9v5pfii68iixps14sqwlt5g&st=mvfc33a9&dl=0)]
+
+What it does
+
+1. Ingests the AWS Customer Agreement PDF
+2. Chunks and embeds document content
+3. Stores embeddings in FAISS
+4. Retrieves the most relevant sections for a query
+5. Builds a grounded prompt using retrieved context
+6. Generates answers using Llama 3.1
+7. Logs every interaction into SQLite
+8. Exposes analytics through SQL-powered APIs
+
+The system also supports conversational follow-up questions by maintaining the previous three question-answer pairs within a session.
+
+⸻
+
+Tech Stack
+
+Backend: FastAPI
+
+Frontend: Streamlit
+
+Vector Store: FAISS
+
+Embeddings: SentenceTransformers (all-MiniLM-L6-v2)
+
+LLM: Meta Llama 3.1 8B Instruct (HuggingFace Inference API)
+
+Database: SQLite
+
+Language: Python
+
+⸻
+
+Architecture
+
+User
+
+↓
+
+Streamlit UI
+
+↓
+
+FastAPI
+
+↓
+
+PDF Loader
+
+↓
+
+Document Chunking
+
+↓
+
+Embeddings
+
+↓
+
+FAISS Semantic Retrieval
+
+↓
+
+Prompt Builder + Chat History
+
+↓
+
+Llama 3.1
+
+↓
+
+Answer + Source Chunks
+
+↓
+
+SQLite Logging
+
+↓
+
+Analytics Dashboard
+
 ⸻
 
 Features
 
 RAG Pipeline
 
-* PDF ingestion via API
-* Recursive document chunking
-* SentenceTransformer embeddings
-* FAISS vector search
-* Top-K semantic retrieval
-* Context-grounded answer generation
-* Source chunk attribution
-* Hallucination mitigation via constrained prompting
+• PDF ingestion through API
+
+• Recursive document chunking
+
+• Semantic retrieval using FAISS
+
+• Top-K retrieval
+
+• Context-grounded generation
+
+• Source chunk attribution
+
+• Follow-up conversational support
 
 FastAPI Backend
 
-* POST /ingest
-* POST /ask
-* GET /analytics
-* Pydantic request/response validation
-* Graceful error handling
-* Session-aware chat history
+• POST /ingest
+
+• POST /ask
+
+• GET /analytics
+
+• Pydantic validation
+
+• Graceful error handling
 
 SQL Analytics
 
-Tracks every interaction and exposes:
+Tracks:
 
-* Most frequently asked questions
-* Queries where no answer was found
-* Average response latency
+• Total queries
 
-Additional analytics:
+• Success rate
 
-* Total queries
-* Success rate
-* Average retrieval confidence
-* Recent queries
-* Slowest queries
+• Average latency
+
+• Average confidence score
+
+• Most frequent questions
+
+• Unanswered queries
+
+• Recent queries
+
+• Slowest queries
 
 Streamlit Frontend
 
-* Chat-style interface
-* Automatic session management
-* Source chunk inspection
-* Analytics dashboard
-* Document ingestion button
+• Chat interface
+
+• Automatic session management
+
+• Source chunk viewer
+
+• Analytics dashboard
+
+• One-click document ingestion
 
 ⸻
 
-Architecture
-
-                          ┌─────────────────┐
-                          │ AWS Agreement   │
-                          │      PDF        │
-                          └────────┬────────┘
-                                   │
-                                   ▼
-                         ┌──────────────────┐
-                         │ PDF Loader       │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Document Chunker │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Embeddings Model │
-                         │ all-MiniLM-L6-v2 │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ FAISS Vector DB  │
-                         └────────┬─────────┘
-                                  │
-                      User Query  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Similarity Search│
-                         │     Top-K=6      │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Prompt Builder   │
-                         │ + Chat History   │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ HuggingFace LLM  │
-                         │ Llama-3.1-8B     │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Generated Answer │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ SQLite Logging   │
-                         └────────┬─────────┘
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │ Analytics API    │
-                         └──────────────────┘
-
-⸻
 Project Structure
 
 vestaff-rag-assistant/
-│
 ├── app/
 │   ├── core/
 │   │   └── config.py
@@ -152,7 +187,6 @@ vestaff-rag-assistant/
 │       └── vector_store.py
 │
 ├── assets/
-│
 ├── data/
 │   └── aws_customer_agreement.pdf
 │
@@ -168,303 +202,122 @@ API Endpoints
 
 POST /ingest
 
-Processes the PDF, creates embeddings, and stores them in FAISS.
-
-Response
-
-{
-  "message": "Document ingested successfully",
-  "chunks_created": 43
-}
-
-⸻
+Processes the AWS Agreement PDF and creates the FAISS vector store.
 
 POST /ask
 
-Accepts a user question and returns an answer with supporting source chunks.
+Accepts a question and returns:
 
-Request
+• Answer
 
-{
-  "session_id": "user-session-123",
-  "question": "Can AWS suspend my account?"
-}
+• Confidence score
 
-Response
-
-{
-  "answer": "Yes, AWS can suspend your account...",
-  "confidence_score": 0.57,
-  "source_chunks": [...]
-}
-
-⸻
+• Source chunks
 
 GET /analytics
 
-Returns SQL-powered analytics.
-
-Response
-
-{
-  "total_queries": 45,
-  "success_rate": 91.11,
-  "average_latency_ms": 2481.73,
-  "average_confidence_score": 1.12,
-  "most_frequent_questions": [...],
-  "unanswered_queries": [...],
-  "recent_queries": [...],
-  "slowest_queries": [...]
-}
+Returns SQL-powered usage analytics.
 
 ⸻
 
-Database Schema
+Example Questions
 
-CREATE TABLE query_logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    session_id TEXT,
-    question TEXT NOT NULL,
-    answer TEXT NOT NULL,
-    confidence_score REAL,
-    latency_ms REAL,
-    answer_found INTEGER,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+• Can AWS suspend my account?
 
-⸻
+• For what reasons?
 
-Design Decisions
+• What happens after termination?
 
-Chunking Strategy
+• Who owns my content?
 
-The AWS Customer Agreement is a legal document containing long clauses and section references.
+• Can AWS access my data?
 
-A recursive text splitter was used to preserve semantic continuity while keeping chunks small enough for efficient retrieval.
+• What happens if I fail to make payments?
 
-* Chunk Size: 1000 characters
-* Chunk Overlap: 200 characters
+• What are my responsibilities under the agreement?
 
-The overlap helps preserve context across clause boundaries and improves retrieval quality.
+These demonstrate both direct retrieval and conversational follow-up behavior.
 
 ⸻
 
-Embedding Model
+Run Locally
 
-sentence-transformers/all-MiniLM-L6-v2
-
-Reasons:
-
-* Lightweight
-* Fast inference
-* Strong semantic search performance
-* Well supported within LangChain
-
-⸻
-
-Vector Store
-
-FAISS
-
-Reasons:
-
-* Lightweight
-* No external infrastructure required
-* Fast local similarity search
-* Ideal for assignment-scale RAG systems
-
-⸻
-
-Retrieval Strategy
-
-Top-K = 6
-
-After experimentation, Top-K of 6 provided a good balance between retrieval recall and prompt noise.
-
-⸻
-
-LLM Choice
-
-Meta-Llama-3.1-8B-Instruct
-
-Served through the HuggingFace Inference API.
-
-Reasons:
-
-* Strong instruction following
-* Good context utilization
-* No paid API required
-
-⸻
-
-Chat History
-
-The system stores the previous three question-answer pairs per session and injects them into the prompt.
-
-This enables contextual follow-up questions such as:
-
-Can AWS suspend my account?
-For what reasons?
-What happens after that?
-
-without requiring users to restate prior context.
-
-⸻
-
-Analytics Queries
-
-Implemented analytics include:
-
-Most Frequently Asked Questions
-
-SELECT question, COUNT(*)
-FROM query_logs
-GROUP BY question
-ORDER BY COUNT(*) DESC;
-
-Unanswered Queries
-
-SELECT question, COUNT(*)
-FROM query_logs
-WHERE answer_found = 0
-GROUP BY question;
-
-Average Latency
-
-SELECT AVG(latency_ms)
-FROM query_logs;
-
-Additional metrics:
-
-* Success Rate
-* Average Confidence Score
-* Recent Queries
-* Slowest Queries
-
-⸻
-
-Setup Instructions
-
-1. Clone Repository
+Clone the repository:
 
 git clone https://github.com/shiv-pratap-dev/vestaff-rag-assistant.git
 cd vestaff-rag-assistant
 
-⸻
+Create environment file:
 
-2. Create Virtual Environment
+cp .env.example .env
 
-Windows
-
-python -m venv .venv
-.venv\Scripts\activate
-
-macOS / Linux
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-⸻
-
-3. Install Dependencies
-
-pip install -r requirements.txt
-
-⸻
-
-4. Create Environment File
-
-Copy:
-
-.env.example
-
-to:
-
-.env
-
-and fill in your HuggingFace token.
-
-Example:
+Add your HuggingFace token:
 
 HF_TOKEN=your_token_here
 
-⸻
+Install dependencies:
 
-5. Start FastAPI
+pip install -r requirements.txt
+
+Start FastAPI:
 
 uvicorn main:app --reload
 
-FastAPI will run at:
-
-http://localhost:8000
-
-Swagger documentation:
+Swagger:
 
 http://localhost:8000/docs
 
-⸻
-
-6. Start Streamlit
-
-Open a second terminal:
+Start Streamlit in a separate terminal:
 
 streamlit run app/frontend/streamlit_app.py
 
-Streamlit will run at:
+Open:
 
 http://localhost:8501
 
-⸻
+Click:
 
-7. Ingest the Document
+Ingest AWS Agreement
 
-Use Swagger UI or the Streamlit button:
-
-POST /ingest
-
-This creates the FAISS vector store.
+Then start chatting with the document.
 
 ⸻
 
-Running the Complete System
+Important Note
 
-Terminal 1
-│
-└── uvicorn main:app --reload
-Terminal 2
-│
-└── streamlit run app/frontend/streamlit_app.py
+As required by the assignment, Streamlit runs as a separate process from FastAPI and communicates with the backend through HTTP requests.
 
-Then:
-
-1. Open Streamlit
-2. Click "Ingest AWS Agreement"
-3. Start asking questions
-4. View analytics dashboard
+Streamlit → HTTP → FastAPI
 
 ⸻
 
 Testing
 
-After building the system, 30+ test queries were executed against the API, including:
+The system was tested using 30+ queries including:
 
-* Document-grounded questions
-* Follow-up conversational questions
-* Out-of-scope questions
+• Answerable document-based questions
 
-This generated realistic analytics data for SQL aggregation and dashboard visualization.
+• Multi-turn follow-up questions
+
+• Out-of-scope questions
+
+This generated realistic analytics data for evaluating retrieval quality and system performance.
 
 ⸻
 
 Future Improvements
 
-* Cross-encoder reranking
-* Hybrid retrieval (BM25 + dense retrieval)
-* Citation-aware answer generation
-* Streaming responses
-* PostgreSQL migration
-* Multi-document support
-* User authentication
+• Cross-encoder reranking
+
+• Hybrid retrieval (BM25 + dense retrieval)
+
+• Streaming responses
+
+• Multi-document support
+
+• PostgreSQL analytics backend
+
+• Authentication and user management
 
 ⸻
 
@@ -473,6 +326,8 @@ Author
 Shiv Pratap Singh
 
 B.Tech Computer Science Engineering (AI/ML)
+
 JECRC University, Jaipur
 
-LinkedIn:[](https://www.linkedin.com/in/shiv-pratap-singh-734a7928b/)
+LinkedIn:
+https://www.linkedin.com/in/shiv-pratap-singh-734a7928b/
