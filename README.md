@@ -4,7 +4,7 @@ A Retrieval-Augmented Generation (RAG) system that allows users to ask questions
 
 Built using FastAPI, FAISS, HuggingFace embeddings, SQLite analytics, and Streamlit.
 
-Demo Video: [](https://www.dropbox.com/scl/fi/7c6xbjvmrhq7i62mxiy8p/AWS-RAG-Screenrecording.mp4?rlkey=nm9v5pfii68iixps14sqwlt5g&st=2qlxyoc8&dl=0)
+Demo Video: [Watch Demo](https://www.dropbox.com/scl/fi/7c6xbjvmrhq7i62mxiy8p/AWS-RAG-Screenrecording.mp4?rlkey=nm9v5pfii68iixps14sqwlt5g&st=2qlxyoc8&dl=0)
 
 
 ---
